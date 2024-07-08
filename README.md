@@ -1,6 +1,6 @@
 ## Requirements
-You need to ollama installed in your local computer to use this application
-Download ollama for windows from [here](https://ollama.com/download)
+You need to have Ollama installed in your local computer to use this application.
+Download Ollama for Windows from [here](https://ollama.com/download).
 
 
 
