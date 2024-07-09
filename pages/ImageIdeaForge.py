@@ -16,17 +16,20 @@ st.set_page_config(
 
 # UI Code
 st.header("ImageIdeaForge")
-# Choosing the LLM
+    
+    # Choosing the LLM
 model_list = ["llava:7b", "bakllava:latest"]
 selected_model = st.selectbox("Choose the LLM", model_list)
 user_input = st.text_area("Input")
 uploaded_image = st.file_uploader("Choose Image", type=['png', 'jpg', 'jpeg'])
 
+if uploaded_image: # Image Preview
+    st.image(uploaded_image, width=256)
+
 if st.button("Generate"):
     
     img_b64 = image_to_base64(uploaded_image)
     
-
     llm = Ollama(model=selected_model, temperature=0.7, keep_alive=-1, num_ctx=256)
 
     llm_with_image_context = llm.bind(images=[img_b64])
