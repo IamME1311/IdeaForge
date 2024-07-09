@@ -1,2 +1,2 @@
 git pull
-streamlit run prompt_app.py
+streamlit run .\💭_IdeaForge_💬.py

@@ -5,9 +5,12 @@ import streamlit as st
 import os
 import json
 
-
-
+st.set_page_config(
+    page_icon="💡",
+    page_title="IdeaForge"
+)
 st.header("IdeaForge")
+
 
 # Choosing the LLM
 model_list = ["llama3:latest", "mistral:latest", "llava:7b", "gemma2:latest"]
@@ -57,7 +60,7 @@ def style_loader(file_path):
 style_prompts_file = style_loader(os.path.join(".\presets", "styles.json")) #json file content
 
 
-# Streamlit code
+# UI Code
 user_input = st.text_area("Input")
 
 def key_extractor(data):
@@ -89,3 +92,6 @@ if st.button("Generate"):
     st.write(f"{result_prompt}" + f"\n {styles}" )
     # for choice in style_choices:
     #     st.write(name_search(choice, sdxl_styles))
+
+
+
