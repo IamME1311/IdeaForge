@@ -9,10 +9,10 @@ import json
 
 st.header("IdeaForge")
 
+# Choosing the LLM
 model_list = ["llama3:latest", "mistral:latest", "llava:7b", "gemma2:latest"]
 selected_model = st.selectbox("Choose the LLM", model_list)
 
-# Choosing the LLM
 chat_model = ChatOllama(model=selected_model, temperature=0.7, keep_alive=-1, num_ctx=256)
 
 system_prompt = """Act as a prompt maker with the following guidelines: 
@@ -46,19 +46,18 @@ str_output_parser = StrOutputParser()
 
 chain = chat_template | chat_model | str_output_parser
 
-#Loading prompt style presets
 
+#Loading prompt style presets from json
 def style_loader(file_path):
     with open(file_path, 'r') as f:
         style_preset = json.load(f)
     return style_preset
 
 # sdxl_styles = style_loader(os.path.join(".\presets", "sdxl_styles.json")) #json file content
-style_prompts = style_loader(os.path.join(".\presets", "styles.json")) #json file content
+style_prompts_file = style_loader(os.path.join(".\presets", "styles.json")) #json file content
 
 
 # Streamlit code
-
 user_input = st.text_area("Input")
 
 def key_extractor(data):
@@ -67,7 +66,7 @@ def key_extractor(data):
         keys_list.append(data[index]["name"])
     return keys_list
 
-def name_search(name, data):
+def style_search(name, data):
     for item in data:
         if name.lower()==item["name"].lower():
             return item["Keywords"]
@@ -77,16 +76,16 @@ def name_search(name, data):
 #     key_extractor(sdxl_styles)
 # )
 
-style_choices_2 = st.multiselect(
+style_choices = st.multiselect(
     "Choose fashion/photography styles",
-    key_extractor(style_prompts)
+    key_extractor(style_prompts_file)
 )
 styles = ""
-for choice in style_choices_2:
-        styles = styles + name_search(choice, style_prompts) + ", "
+for choice in style_choices:
+        styles = styles + style_search(choice, style_prompts_file) + ", "
+
 if st.button("Generate"):
     result_prompt = chain.invoke({"user_input":user_input})
     st.write(f"{result_prompt}" + f"\n {styles}" )
-    
     # for choice in style_choices:
     #     st.write(name_search(choice, sdxl_styles))
