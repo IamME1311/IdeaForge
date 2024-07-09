@@ -1,2 +1,3 @@
 git pull
-streamlit run .\💭_IdeaForge_💬.py
+streamlit run IdeaForge.py
+pause
