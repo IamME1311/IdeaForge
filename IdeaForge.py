@@ -51,7 +51,7 @@ chain = chat_template | chat_model | str_output_parser
 
 
 #Loading prompt style presets from json
-def style_loader(file_path):
+def style_loader(file_path : str) -> list:
     with open(file_path, 'r') as f:
         style_preset = json.load(f)
     return style_preset
@@ -63,13 +63,13 @@ style_prompts_file = style_loader(os.path.join(".\presets", "styles.json")) #jso
 # UI Code
 user_input = st.text_area("Input")
 
-def key_extractor(data):
+def key_extractor(data : list) -> list:
     keys_list = []
     for index in range(len(data)):
         keys_list.append(data[index]["name"])
     return keys_list
 
-def style_search(name, data):
+def style_search(name : str, data : list) -> str:
     for item in data:
         if name.lower()==item["name"].lower():
             return item["Keywords"]

@@ -3,10 +3,10 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 import streamlit as st
 import base64
+from io import BytesIO
 
 
-
-def image_to_base64(image):
+def image_to_base64(image : BytesIO) -> base64:
     img_base64 = base64.b64encode(image.getvalue()).decode("utf-8")
     return img_base64
 st.set_page_config(
