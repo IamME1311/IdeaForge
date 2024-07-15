@@ -16,7 +16,7 @@ st.header("IdeaForge")
 model_list = ["llama3:latest", "mistral:latest", "llava:7b", "gemma2:latest"]
 selected_model = st.selectbox("Choose the LLM", model_list)
 
-chat_model = ChatOllama(model=selected_model, temperature=0.7, keep_alive=-1, num_ctx=256)
+chat_model = ChatOllama(model=selected_model, temperature=0.7, keep_alive=0, num_ctx=256)
 
 system_prompt = """Act as a prompt maker with the following guidelines: 
 - Break keywords by commas. 
