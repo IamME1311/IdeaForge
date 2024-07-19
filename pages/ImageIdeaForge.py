@@ -50,7 +50,7 @@ if uploaded_image: # Image Preview
                 chain = chat_template | llm_with_image_context | str_output_parser
                 result_prompt = chain.invoke({"user_input":user_input})
                 if result_prompt:
-                    result_prompt
+                    st.sidebar.write(result_prompt)
                     break
 else:
     st.warning("Image not Uploaded!!", icon="⚠️")

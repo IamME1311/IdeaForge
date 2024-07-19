@@ -60,7 +60,7 @@ if st.button("Generate"):
                 model = genai.GenerativeModel(model_name=selected_model, generation_config=genai.GenerationConfig(temperature=0.6), system_instruction=system_prompt)
                 response = model.generate_content([prompt, video_file])
                 if response:
-                    response.text
+                    st.sidebar.write(response.text)
                     break
         os.remove(video_file_st.name)         # Remove file from local system
         genai.delete_file(video_file.name)    # Remove file from google file server

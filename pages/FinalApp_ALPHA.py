@@ -150,7 +150,7 @@ with ImageIdeaForge:
                     t2_chain = t2_chat_template | llm_with_image_context | t2_str_output_parser
                     t2_result_prompt = t2_chain.invoke({"user_input":t2_user_input})
                     if t2_result_prompt:
-                        t2_result_prompt
+                        st.sidebar.write(t2_result_prompt)
                         break
     else:
         st.warning("Image not Uploaded!!", icon="⚠️")
