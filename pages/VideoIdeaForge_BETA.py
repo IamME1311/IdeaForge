@@ -22,7 +22,8 @@ def stream_data(data):
 load_dotenv()
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 system_prompt = "You are a helpful AI bot. You are supposed to describe and analyze the input video as best as you can."
-
+model_list = [ "Gemini 1.5 Flash", "Gemini 1.5 Pro"]
+selected_model = st.selectbox("Choose Gemini model", model_list)
 prompt = st.text_area("Input Prompt", placeholder="Enter Prompt here")
 video_file_st = st.file_uploader("Upload Video File", type=["mp4", "mpeg", "mov", "avi", "x-flv", "mpg", "webm", "wmv", "3gpp"])
 
@@ -52,7 +53,11 @@ if st.button("Generate"):
             raise ValueError(video_file.state.name)
         while True:
             with st.spinner("Generating..."):
-                model = genai.GenerativeModel(model_name="gemini-1.5-flash", generation_config=genai.GenerationConfig(temperature=0.6), system_instruction=system_prompt)
+                if selected_model=="Gemini 1.5 Pro":
+                    selected_model="gemini-1.5-pro"
+                else:
+                    selected_model="gemini-1.5-flash"
+                model = genai.GenerativeModel(model_name=selected_model, generation_config=genai.GenerationConfig(temperature=0.6), system_instruction=system_prompt)
                 response = model.generate_content([prompt, video_file])
                 if response:
                     response.text
