@@ -52,6 +52,8 @@ if uploaded_image: # Image Preview
                 if result_prompt:
                     result_prompt
                     break
+else:
+    st.warning("Image not Uploaded!!", icon="⚠️")
 
 
 
