@@ -21,7 +21,7 @@ st.header("ImageIdeaForge")
 model_list = ["llava:7b", "bakllava:latest"]
 selected_model = st.selectbox("Choose the LLM", model_list)
 user_input = st.text_area("Input")
-uploaded_image = st.file_uploader("Choose Image", type=['png', 'jpg', 'jpeg'])
+uploaded_image = st.file_uploader("Choose Image", type=['png', 'jpg', 'jpeg', 'jfif'])
 
 if uploaded_image: # Image Preview
     st.image(uploaded_image, width=256)
@@ -50,6 +50,7 @@ if uploaded_image: # Image Preview
                 chain = chat_template | llm_with_image_context | str_output_parser
                 result_prompt = chain.invoke({"user_input":user_input})
                 if result_prompt:
+                    st.sidebar.markdown("## Output")
                     st.sidebar.write(result_prompt)
                     break
 else:
