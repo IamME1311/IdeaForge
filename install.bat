@@ -4,3 +4,4 @@ ollama pull llama3:latest
 ollama pull mistral:latest
 ollama pull llava:7b
 ollama pull bakllava:latest
+ollama pull llava-llama3
