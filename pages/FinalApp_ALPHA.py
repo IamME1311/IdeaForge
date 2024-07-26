@@ -118,7 +118,7 @@ with ImageIdeaForge:
     st.header("ImageIdeaForge")
         
     # Choosing the LLM
-    t2_model_list = ["llava:7b", "bakllava:latest"]
+    t2_model_list = ["llava:7b", "bakllava:latest", "llava-llama3"]
     t2_selected_model = st.selectbox("Choose the LLM", t2_model_list, key="imageideaforge_model")
     t2_user_input = st.text_area("Input", key="imageideaforge_prompt")
     uploaded_image = st.file_uploader("Choose Image", type=['png', 'jpg', 'jpeg'])

@@ -18,7 +18,7 @@ st.set_page_config(
 st.header("ImageIdeaForge")
     
 # Choosing the LLM
-model_list = ["llava:7b", "bakllava:latest"]
+model_list = ["llava:7b", "bakllava:latest", "llava-llama3"]
 selected_model = st.selectbox("Choose the LLM", model_list)
 user_input = st.text_area("Input", value="describe the composition,dress, person and background")
 uploaded_image = st.file_uploader("Choose Image", type=['png', 'jpg', 'jpeg', 'jfif'])
