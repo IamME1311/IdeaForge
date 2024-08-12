@@ -57,7 +57,7 @@ def style_loader(file_path : str) -> list:
     return style_preset
 
 # sdxl_styles = style_loader(os.path.join(".\presets", "sdxl_styles.json")) #json file content
-style_prompts_file = style_loader(os.path.join(".\presets", "styles.json")) #json file content
+style_prompts_file = style_loader(os.path.join("presets", "styles.json")) #json file content
 
 
 # UI Code
