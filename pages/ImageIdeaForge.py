@@ -4,7 +4,22 @@ from langchain_core.prompts import ChatPromptTemplate
 import streamlit as st
 import base64
 from io import BytesIO
+# import socket
 
+
+# def fromPhotoshop():
+    
+#     return
+
+# def toComfyUI(data:bytes) -> None:
+#     HOST = "127.0.0.1"
+#     PORT = 9000
+#     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#     server_socket.bind((HOST, PORT))
+#     server_socket.listen(1)
+#     conn, addr = server_socket.accept()
+#     send_data = data.encode('utf-8')
+#     conn.sendall(send_data)
 
 def image_to_base64(image : BytesIO) -> base64:
     img_base64 = base64.b64encode(image.getvalue()).decode("utf-8")
@@ -52,6 +67,7 @@ if uploaded_image: # Image Preview
                 if result_prompt:
                     st.sidebar.markdown("## Output")
                     st.sidebar.write(result_prompt)
+
                     break
 else:
     st.warning("Image not Uploaded!!", icon="⚠️")
