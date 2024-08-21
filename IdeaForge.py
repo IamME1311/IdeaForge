@@ -18,7 +18,7 @@ selected_model = st.selectbox("Choose the LLM", model_list)
 
 chat_model = Ollama(model=selected_model, temperature=0.7, keep_alive=0, num_ctx=256)
 
-system_prompt = "You are a helpful AI assistant who helps user to make prompts for generating images using stable diffusion. The images generated using these prompts will mostly be used in fashion product cataloging, so provide good details in the prompt about the potential image. The details must contain information about the surroundings which is in sync with the subject of the image."
+system_prompt = "You are a helpful AI assistant who helps user to make prompts for generating images using stable diffusion. The prompt must contain information about the surroundings which is in sync with the subject of the image. Try to describe the subject of the image within the first few words of the prompt. Don't use imperatives like 'generate, create', just specify things that can used as prompt for the image. Try to avoid words that are NSFW. The prompt must follow this structure : image composition, major details and finally all the fine details."
 
 chat_template = ChatPromptTemplate.from_messages(
     [

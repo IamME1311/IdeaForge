@@ -50,7 +50,7 @@ if uploaded_image: # Image Preview
 
                 llm_with_image_context = llm.bind(images=[img_b64])
 
-                system_prompt = """You are an assistant who describes the content and composition of images. Describe only what you see in the image, not what you think the image is about.Be factual and literal. Do not use metaphors or similes. Be concise, Create a image generation prompt that fits the image, don't use "", don't use imperatives like "generate, create" etc., just describe what you see in the image in a way that it could be used as a prompt for that specific image. If there are words or something that looks like a copyright symbol, make no mention of it."""
+                system_prompt = """You are an assistant who describes the content and composition of images. Describe only what you see in the image, not what you think the image is about. Be factual and literal. Do not use metaphors or similes. Be concise, Create a image generation prompt that fits the image, don't use "", don't use imperatives like "generate, create" etc., just describe what you see in the image in a way that it could be used as a prompt for that specific image. If there are words or something that looks like a copyright symbol, make no mention of it. Also try to describe the facial features like eyes, hairstyle, eyebrows, jawline, complexion, lips etc."""
 
                 chat_template = ChatPromptTemplate.from_messages(
                     [
