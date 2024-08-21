@@ -67,7 +67,6 @@ if uploaded_image: # Image Preview
                 if result_prompt:
                     st.sidebar.markdown("## Output")
                     st.sidebar.write(result_prompt)
-
                     break
 else:
     st.warning("Image not Uploaded!!", icon="⚠️")
