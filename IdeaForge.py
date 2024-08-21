@@ -18,20 +18,7 @@ selected_model = st.selectbox("Choose the LLM", model_list)
 
 chat_model = Ollama(model=selected_model, temperature=0.7, keep_alive=0, num_ctx=256)
 
-system_prompt = """You are a helpful AI bot. You are to act as a prompt maker for stable diffusion with the following guidelines: 
-- Break keywords by commas. 
-- Provide high-quality, non-verbose, coherent, brief, concise, and not superfluous prompts. 
-- Construct the prompt with the component format: 
-    1. Start with the subject and description. 
-    2. Follow with scene description. 
-    3. Finish with background and description. 
-- Limit yourself to no more than 7 keywords per component 
-- Include all the keywords from the user's request verbatim as the main subject of the response. 
-- Be varied and creative. 
-- Limit yourself to 100-150 words.
-- Do not enumerate or enunciate components. 
-- Do not include any additional information in the response. 
-"""
+system_prompt = "You are a helpful AI assistant who helps user to make prompts for generating images using stable diffusion. The images generated using these prompts will mostly be used in fashion product cataloging, so provide good details in the prompt about the potential image. The details must contain information about the surroundings which is in sync with the subject of the image."
 
 chat_template = ChatPromptTemplate.from_messages(
     [
