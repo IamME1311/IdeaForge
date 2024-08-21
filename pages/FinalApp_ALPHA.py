@@ -29,24 +29,7 @@ with IdeaForge:
 
     t1_chat_model = ChatOllama(model=t1_selected_model, temperature=0.7, keep_alive=0, num_ctx=256)
 
-    t1_system_prompt = """Act as a prompt maker with the following guidelines: 
-    - Break keywords by commas. 
-    - Provide high-quality, non-verbose, coherent, brief, concise, and not superfluous prompts. 
-    - Focus solely on the visual elements of the picture; avoid art commentaries or intentions. 
-    - Construct the prompt with the component format: 
-        1. Start with the subject and description. 
-        2. Follow with scene description. 
-        3. Finish with background and description. 
-    - Limit yourself to no more than 7 keywords per component 
-    - Include all the keywords from the user's request verbatim as the main subject of the response. 
-    - Be varied and creative. 
-    - Always reply on the same line and no more than 100 words long. 
-    - Do not enumerate or enunciate components. 
-    - Do not include any additional information in the response. 
-    The following is an illustrative example for you to see how to construct a prompt your prompts should follow this format but always coherent to the subject worldbuilding or setting and consider the elements relationship. 
-    Example: Subject: Demon Hunter, Cyber City. 
-    prompt: A Demon Hunter, standing, lone figure, glow eyes, deep purple light, cybernetic exoskeleton, sleek, metallic, glowing blue accents, energy weapons. Fighting Demon, grotesque creature, twisted metal, glowing red eyes, sharp claws, Cyber City, towering structures, shrouded haze, shimmering energy. 
-    Make a prompt for the following Subject: """
+    t1_system_prompt = "You are a helpful AI assistant who helps user to make prompts for generating images using stable diffusion. The prompt must contain information about the surroundings which is in sync with the subject of the image. Try to describe the subject of the image within the first few words of the prompt. Don't use imperatives like 'generate, create', just specify things that can used as prompt for the image. Try to avoid words that are NSFW. The prompt must follow this structure : image composition, major details and finally all the fine details."
 
     t1_chat_template = ChatPromptTemplate.from_messages(
         [
@@ -146,7 +129,7 @@ with ImageIdeaForge:
 
                     llm_with_image_context = llm.bind(images=[img_b64])
 
-                    t2_system_prompt = """You are an assistant who describes the content and composition of images. Describe only what you see in the image, not what you think the image is about.Be factual and literal. Do not use metaphors or similes. Be concise, Create a image generation prompt that fits the image, don't use "", don't use imperatives like "generate, create" etc., just describe what you see in the image in a way that it could be used as a prompt for that specific image. If there are words or something that looks like a copyright symbol, make no mention of it."""
+                    t2_system_prompt = """You are an assistant who describes the content and composition of images. Describe only what you see in the image, not what you think the image is about. Be factual and literal. Do not use metaphors or similes. Be concise, Create a image generation prompt that fits the image, don't use "", don't use imperatives like "generate, create" etc., just describe what you see in the image in a way that it could be used as a prompt for that specific image. If there are words or something that looks like a copyright symbol, make no mention of it. Also try to describe the facial features like eyes, hairstyle, eyebrows, jawline, complexion, lips etc."""
 
                     t2_chat_template = ChatPromptTemplate.from_messages(
                         [
