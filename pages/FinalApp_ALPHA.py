@@ -106,14 +106,25 @@ with IdeaForge:
 
 
 with ImageIdeaForge:
+    # import socket
+
+
+    # def fromPhotoshop():
+        
+    #     return
+
+    # def toComfyUI(data:bytes) -> None:
+    #     HOST = "127.0.0.1"
+    #     PORT = 9000
+    #     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    #     server_socket.bind((HOST, PORT))
+    #     server_socket.listen(1)
+    #     conn, addr = server_socket.accept()
+    #     send_data = data.encode('utf-8')
+    #     conn.sendall(send_data)
     def image_to_base64(image : BytesIO) -> base64:
         img_base64 = base64.b64encode(image.getvalue()).decode("utf-8")
         return img_base64
-    # st.set_page_config(
-    #     page_icon="📸",
-    #     page_title="ImageIdeaForge"
-    # )
-
     # UI Code
     st.header("ImageIdeaForge")
         
