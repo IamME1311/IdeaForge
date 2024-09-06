@@ -4,6 +4,7 @@ from langchain_core.prompts import ChatPromptTemplate
 import streamlit as st
 import base64
 from io import BytesIO
+from PIL import Image
 # import socket
 
 
@@ -36,8 +37,19 @@ st.header("ImageIdeaForge")
 model_list = ["llava:7b", "bakllava:latest", "llava-llama3"]
 selected_model = st.selectbox("Choose the LLM", model_list)
 user_input = st.text_area("Input", value="describe the composition,dress, person and background")
-uploaded_image = st.file_uploader("Choose Image", type=['png', 'jpg', 'jpeg', 'jfif'])
 
+choice = st.toggle("upload via path or uploader")
+
+if choice:
+    uploaded_image = st.file_uploader("Choose Image", type=['png', 'jpg', 'jpeg', 'jfif'])
+else:
+    path = st.text_input("Enter path", placeholder="Enter path here")
+    path = path.replace('"', '')
+    path = path.replace('\\', '/')
+    img = Image.open(path)
+    img_byte_arr = BytesIO()
+    img.save(img_byte_arr, format='PNG')
+    uploaded_image = img_byte_arr
 if uploaded_image: # Image Preview
     st.image(uploaded_image, width=256)
 
