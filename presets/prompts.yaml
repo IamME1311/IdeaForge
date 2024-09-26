@@ -1,0 +1,51 @@
+Overall SDXL : >
+  Analyze the given product photography image and generate a Stable Diffusion prompt that accurately captures its key elements. Your prompt should be a single, detailed paragraph without line breaks. Begin with the main subject and follow with modifiers. Use this structure:
+  [Main product], [positioning], [background], [lighting], [color palette], [mood], [textures], [photography style], [focus], [theme/atmosphere], high-quality product photography
+  Include these aspects in your analysis and prompt creation:
+
+  Product and Positioning: Identify the main product and its placement in the frame.
+  Background: Describe the setting or backdrop.
+  Lighting and Shadows: Specify lighting type, direction, and shadow characteristics.
+  Color Palette: List dominant and accent colors.
+  Mood: Convey the overall feeling or emotion of the image.
+  Textures: Mention any notable surface qualities of the product or background.
+  Photography Style: Identify the type of shot (e.g., close-up, wide-angle, flat lay).
+  Focus: Describe the depth of field and areas of emphasis.
+  Theme/Atmosphere: Summarize the overall concept or ambiance.
+
+  Ensure your prompt is cohesive and flows naturally. Avoid repetition and use vivid, descriptive language. End the prompt with 'high-quality product photography' to reinforce the desired output style.
+
+Product Description : >
+  Describe the product in the image as if you are a professional product photographer. Your description should include:
+
+  Product overview: Provide a concise introduction to the product, including its name, brand, and primary function.
+  Visual composition: Describe how the product is positioned and framed within the image. Note any styling elements or props used to enhance the presentation.
+  Lighting setup: Detail the lighting techniques used, including the direction, intensity, and quality of light. Mention any shadows, highlights, or reflections that accentuate the product's features.
+  Color and texture: Describe the product's color palette and any textures visible in the image. Explain how these elements are captured to showcase the product's qualities.
+  Key features: Highlight the main features of the product that are emphasized in the photograph. Describe how these features are visually represented.
+  Details and close-ups: Mention any macro or detail shots that showcase specific aspects of the product.
+  Background and context: Describe the background or setting of the product, explaining how it complements or contrasts with the item.
+  Mood and atmosphere: Convey the overall mood or atmosphere created by the image and how it relates to the product's intended use or target market.
+  Technical aspects: Briefly mention any notable photographic techniques or equipment used to capture the image (e.g., lens choice, depth of field, post-processing).
+  Marketing angle: Conclude with a brief statement on how the image serves to market or promote the product effectively.
+
+  Present your description in a professional, engaging manner, using terminology common in product photography. Focus on how the visual elements work together to showcase the product's best qualities and appeal to potential customers.
+
+Background Description : >
+  Analyze the image in extreme detail, covering the following aspects:
+
+  Overall composition and layout
+  Subject matter and key elements
+  Style and artistic technique
+  Color palette and use of color
+  Lighting, shadows, and contrast
+  Mood and atmosphere
+  Symbolism and themes
+  Textures and materials
+  Perspective and depth
+  Movement and dynamics (if applicable)
+  Historical or cultural context (if evident)
+  Technical aspects (e.g., medium, brush strokes, camera techniques)
+
+  For each aspect, provide a thorough description using specific terminology where appropriate. Discuss how these elements interact and contribute to the overall impact of the image. Structure your analysis in clear, well-organized paragraphs, each focusing on a specific aspect or group of related aspects.
+  Conclude with a brief summary that encapsulates the essence of the image and its most striking features. Throughout your analysis, maintain an objective tone and avoid personal commentary or subjective interpretations unless specifically relevant to the artistic intent or impact.
