@@ -2,14 +2,12 @@ from langchain_community.llms.ollama import Ollama
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 import google.generativeai as genai
-from seaborn import load_dataset
 import streamlit as st
 import base64
 from io import BytesIO
 from PIL import Image
 import os
 from dotenv import load_dotenv
-import time
 import yaml
 
 ########################WIP###################################
@@ -38,10 +36,16 @@ def image_to_base64(image : BytesIO) -> base64:
     img_base64 = base64.b64encode(image.getvalue()).decode("utf-8")
     return img_base64
 
-def yaml_extractor():
+def yaml_extractor() -> dict:
     with open('./presets/prompts.yaml', 'r') as f:
         yaml_data = yaml.safe_load(f)
     return yaml_data
+
+def to_pil_image(data)->Image:
+    img = Image.open(data)
+    bytes_arr = BytesIO()
+    img.save(bytes_arr, format="PNG")
+    return img
 
 
 
@@ -93,19 +97,17 @@ else:
 
 
 
-
+# path or file
 choice = st.toggle("upload via path or uploader")
 
 if choice:
     uploaded_image = st.file_uploader("Choose Image", type=['png', 'jpg', 'jpeg', 'jfif'])
+    uploaded_image = to_pil_image(uploaded_image)
 else:
     path = st.text_input("Enter path", placeholder="Enter path here")
     path = path.replace('"', '')
     path = path.replace('\\', '/')
-    img = Image.open(path)
-    img_byte_arr = BytesIO()
-    img.save(img_byte_arr, format='PNG')
-    uploaded_image = img_byte_arr
+    uploaded_image = to_pil_image(path)
 
 
 if uploaded_image: # Image Preview
@@ -117,36 +119,12 @@ if uploaded_image: # Image Preview
                 
                 ### Gemini API 
                 if selected_model == "gemini-1.5-flash":
-                    with open(uploaded_image.name, "wb") as f:
-                        f.write(uploaded_image.read())
-
-                    #Google File API, file upload
-                    progress_text = "Analyzing Image..."
-                    my_bar = st.progress(0, text=progress_text)
-                    image_file = genai.upload_file(uploaded_image.name)
-                    percent_complete = 25
-                    while image_file.state.name=="PROCESSING":
-                        percent_complete += 15
-                        if percent_complete >= 100:
-                            percent_complete=95
-                        print('.', end='')
-                        time.sleep(1)
-                        image_file = genai.get_file(image_file.name)
-                        my_bar.progress(percent_complete, text=progress_text)
-                    my_bar.empty()
-                    st.success("Analyzed Successfully!!" , icon="✅")
-                    if image_file.state.name=="FAILED":
-                        raise ValueError(image_file.state.name)
-                    
-                    # system_prompt = "describe the image"
                     load_dotenv()
                     genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
                     llm = genai.GenerativeModel(model_name=selected_model, generation_config=genai.GenerationConfig(temperature=0.6))
-                    response = llm.generate_content([selected_prompt, image_file])
+                    response = llm.generate_content([selected_prompt, uploaded_image])
                     if response:
                         st.sidebar.write(response.text)
-                    os.remove(uploaded_image.name)    
-                    genai.delete_file(image_file.name)
                     break
 
 
