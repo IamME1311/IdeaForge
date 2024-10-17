@@ -1,9 +1,8 @@
 import streamlit as st
 import google.generativeai as genai
 import os
-import time
 from dotenv import load_dotenv
-
+from .utils import *
 
 st.set_page_config(
     page_icon="📹",
@@ -13,11 +12,6 @@ st.set_page_config(
 # UI Code
 st.header("VideoIdeaForge")
     
-def stream_data(data):
-    for word in data.split(" "):
-        yield word + " "
-        time.sleep(0.02)
-
 # Configuring the LLM
 load_dotenv()
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
@@ -60,7 +54,7 @@ if st.button("Generate"):
                 model = genai.GenerativeModel(model_name=selected_model, generation_config=genai.GenerationConfig(temperature=0.6), system_instruction=system_prompt)
                 response = model.generate_content([prompt, video_file])
                 if response:
-                    st.sidebar.write(response.text)
+                    st.sidebar.write_stream(stream_response(response.text))
                     break
         os.remove(video_file_st.name)         # Remove file from local system
         genai.delete_file(video_file.name)    # Remove file from google file server

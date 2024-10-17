@@ -3,12 +3,9 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 import google.generativeai as genai
 import streamlit as st
-import base64
-from io import BytesIO
-from PIL import Image
 import os
 from dotenv import load_dotenv
-import yaml
+from .utils import *
 
 ########################WIP###################################
 # import socket
@@ -28,25 +25,6 @@ import yaml
 #     send_data = data.encode('utf-8')
 #     conn.sendall(send_data)
 ##########################WIP####################################
-
-
-
-############ Helper functions ############
-def image_to_base64(image : BytesIO) -> base64:
-    img_base64 = base64.b64encode(image.getvalue()).decode("utf-8")
-    return img_base64
-
-def yaml_extractor() -> dict:
-    with open('./presets/prompts.yaml', 'r') as f:
-        yaml_data = yaml.safe_load(f)
-    return yaml_data
-
-def to_pil_image(data)->Image:
-    img = Image.open(data)
-    bytes_arr = BytesIO()
-    img.save(bytes_arr, format="PNG")
-    return img
-
 
 
 st.set_page_config(
@@ -150,7 +128,7 @@ if uploaded_image: # Image Preview
                     result_prompt = chain.invoke({"user_input":selected_prompt})
                     if result_prompt:
                         st.sidebar.markdown("## Output")
-                        st.sidebar.write(result_prompt)
+                        st.sidebar.write_stream(stream_response(result_prompt))
                         break
 else:
     st.warning("Image not Uploaded!!", icon="⚠️")

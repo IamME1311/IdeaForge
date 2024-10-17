@@ -4,12 +4,9 @@ from langchain_community.llms.ollama import Ollama
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 import google.generativeai as genai
-import time
 from dotenv import load_dotenv
 import os
-import json
-import base64
-from io import BytesIO
+from .utils import *
 
 st.set_page_config(
         page_icon="💡",
@@ -43,13 +40,6 @@ with IdeaForge:
 
     t1_chain = t1_chat_template | t1_chat_model | t1_str_output_parser
 
-
-    #Loading prompt style presets from json
-    def style_loader(file_path : str) -> list:
-        with open(file_path, 'r') as f:
-            style_preset = json.load(f)
-        return style_preset
-
     # sdxl_styles = style_loader(os.path.join(".\presets", "sdxl_styles.json")) #json file content
     t1_style_prompts_file = style_loader(os.path.join(".\presets", "styles.json")) #json file content
 
@@ -57,21 +47,6 @@ with IdeaForge:
     # UI Code
     t1_user_input = st.text_area("Input", key="ideaforge_prompt")
 
-    def key_extractor(data : list) -> list:
-        keys_list = []
-        for index in range(len(data)):
-            keys_list.append(data[index]["name"])
-        return keys_list
-
-    def style_search(name : str, data : list) -> str:
-        for item in data:
-            if name.lower()==item["name"].lower():
-                return item["Keywords"]
-
-    # style_choices = st.multiselect(
-    #     "Choose style",
-    #     key_extractor(sdxl_styles)
-    # )
 
     t1_style_choices = st.multiselect(
         "Choose fashion/photography styles",
@@ -83,31 +58,11 @@ with IdeaForge:
 
     if st.button("Generate", key="ideaforge_button"):
         t1_result_prompt = t1_chain.invoke({"user_input":t1_user_input})
-        st.write(f"{t1_result_prompt}" + f"\n {t1_styles}")
-        # for choice in style_choices:
-        #     st.write(name_search(choice, sdxl_styles))
+        st.write_stream(stream_response(f"{t1_result_prompt}" + f"\n {t1_styles}"))
 
 
 with ImageIdeaForge:
-    # import socket
 
-
-    # def fromPhotoshop():
-        
-    #     return
-
-    # def toComfyUI(data:bytes) -> None:
-    #     HOST = "127.0.0.1"
-    #     PORT = 9000
-    #     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    #     server_socket.bind((HOST, PORT))
-    #     server_socket.listen(1)
-    #     conn, addr = server_socket.accept()
-    #     send_data = data.encode('utf-8')
-    #     conn.sendall(send_data)
-    def image_to_base64(image : BytesIO) -> base64:
-        img_base64 = base64.b64encode(image.getvalue()).decode("utf-8")
-        return img_base64
     # UI Code
     st.header("ImageIdeaForge")
         
@@ -128,28 +83,6 @@ with ImageIdeaForge:
                     llm = Ollama(model=t2_selected_model, temperature=0.7, keep_alive=0, num_ctx=256)
 
                     llm_with_image_context = llm.bind(images=[img_b64])
-
-                    # t2_system_prompt = """
-                    # The model will describe the content and composition of images in a factual and literal manner, focusing on realistic depictions of people. The description should be concise, detailing only what is visible in the image without making assumptions or interpretations. The descriptions should be suitable for generating images of realistic people, with a focus on Indian features and settings. Fantasy, anime, and sketch-like elements should be omitted.
-
-                    # Structure and Focus:
-
-                    #     - Subject Description: Begin by identifying the main subject in the image, specifying gender, age range (e.g., 20-40 years), and any distinguishing characteristics such as body posture or gestures.
-                        
-                    #     - Facial Features: Describe the facial features with precision, including details like eye shape, size, and color; hairstyle and length; eyebrow thickness and shape; complexion; jawline definition; and lip shape and fullness. Aim for an accurate portrayal of Indian features.
-                        
-                    #     - Clothing: Describe the type of clothing the person is wearing (e.g., t-shirt, sari, jeans) without emphasizing colors. Focus on the style and fit rather than specific details that may not be consistent across similar images.
-
-                    #     - Background and Setting: Provide a brief description of the background or setting, focusing on whether it is indoors or outdoors, and noting any relevant environmental elements (e.g., urban street, office, natural landscape).
-
-                    #     - Lighting and Mood: Mention the lighting conditions if they are evident (e.g., natural light, artificial light, shadows) and the overall mood or atmosphere conveyed by the scene.
-
-                    # Example Description:
-                    #     A 30-year-old Indian woman standing outdoors in a relaxed pose. She has medium-length, wavy black hair parted to the side, large brown eyes with thick eyebrows, a medium complexion, and full lips. She is wearing a casual kurti and jeans. The background shows a busy urban street with a few trees visible. The lighting is natural, suggesting it's daytime, with soft shadows.
-                    # """
-
-
-                    ## alternate system prompt
 
                     t2_system_prompt = """ 
                     The model will describe the content and composition of images in a factual and literal manner, focusing on realistic depictions of people. The description should be detailed yet concise, capturing only what is visible in the image without making assumptions or interpretations. The descriptions should be suitable for generating images of realistic people, with a focus on Indian features and settings. Fantasy, anime, and sketch-like elements should be omitted.
@@ -186,25 +119,15 @@ with ImageIdeaForge:
                     t2_chain = t2_chat_template | llm_with_image_context | t2_str_output_parser
                     t2_result_prompt = t2_chain.invoke({"user_input":t2_user_input})
                     if t2_result_prompt:
-                        st.sidebar.write(t2_result_prompt)
+                        st.sidebar.write_stream(stream_response(t2_result_prompt))
                         break
     else:
         st.warning("Image not Uploaded!!", icon="⚠️")
 
 
 with VideoIdeaForge:
-    # st.set_page_config(
-    #     page_icon="📹",
-    #     page_title="VideoIdeaForge"
-    # )
-
     # UI Code
     st.header("VideoIdeaForge")
-        
-    def stream_data(data):
-        for word in data.split(" "):
-            yield word + " "
-            time.sleep(0.02)
 
     # Configuring the LLM
     load_dotenv()
@@ -252,7 +175,7 @@ with VideoIdeaForge:
                     t3_model = genai.GenerativeModel(model_name=t3_selected_model, generation_config=genai.GenerationConfig(temperature=0.6), system_instruction=t3_system_prompt)
                     t3_response = t3_model.generate_content([t3_prompt, video_file])
                     if t3_response:
-                        t3_response.text
+                        st.sidebar.write_stream(stream_response(t3_response.text))
                         break
                     
             os.remove(video_file_st.name)         # Remove file from local system
