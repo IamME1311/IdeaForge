@@ -5,7 +5,7 @@ import google.generativeai as genai
 import streamlit as st
 import os
 from dotenv import load_dotenv
-from .utils import *
+from utils import *
 
 ########################WIP###################################
 # import socket
@@ -80,7 +80,6 @@ choice = st.toggle("upload via path or uploader")
 
 if choice:
     uploaded_image = st.file_uploader("Choose Image", type=['png', 'jpg', 'jpeg', 'jfif'])
-    uploaded_image = to_pil_image(uploaded_image)
 else:
     path = st.text_input("Enter path", placeholder="Enter path here")
     path = path.replace('"', '')
