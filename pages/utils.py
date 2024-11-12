@@ -4,6 +4,7 @@ from io import BytesIO
 import base64
 from PIL import Image
 import yaml
+from pathlib import Path
 
 
 ############ Helper functions ############
@@ -16,7 +17,7 @@ def yaml_extractor() -> dict:
         yaml_data = yaml.safe_load(f)
     return yaml_data
 
-def to_pil_image(data)->Image:
+def to_pil_image(data:Path)->Image:
     img = Image.open(data)
     bytes_arr = BytesIO()
     img.save(bytes_arr, format="PNG")
